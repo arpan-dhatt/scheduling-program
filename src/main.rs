@@ -79,3 +79,16 @@ fn get_blocks_to_classes_map(classes_and_blocks: &Vec<(String,Vec<usize>)>) -> [
     }
     return out;
 }
+
+fn get_all_valid_classes(blocks_to_classes: &[Vec<String>; 8], output: &mut Vec<[String; 8]>, input: &[String; 8], mut work: [String; 8], block: usize) {
+    for class in blocks_to_classes[block] {
+        if !work.contains(&class) && input.contains(&class) {
+            work[block].push_str(&class);
+            if block == 7 {
+                output.push(work.clone());
+                return;
+            }
+            get_all_valid_classes(blocks_to_classes, output, input, work.clone(), block+1);
+        }
+    }
+}
